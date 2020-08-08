@@ -1,153 +1,185 @@
+import com.neuronrobotics.bowlerstudio.BowlerStudio;
+import com.neuronrobotics.bowlerstudio.BowlerStudioController
+import com.neuronrobotics.sdk.addons.kinematics.DHChain;
+import com.neuronrobotics.sdk.addons.kinematics.DhInverseSolver;
+import com.neuronrobotics.sdk.addons.kinematics.math.RotationNR;
+import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR;
 import java.util.ArrayList;
 
 import com.neuronrobotics.sdk.addons.kinematics.DHChain;
 import com.neuronrobotics.sdk.addons.kinematics.DHLink;
 import com.neuronrobotics.sdk.addons.kinematics.DhInverseSolver;
 import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR;
-import com.neuronrobotics.sdk.common.Log;					
+import com.neuronrobotics.sdk.common.Log;
 import Jama.Matrix;
+import eu.mihosoft.vrl.v3d.Cube
+import eu.mihosoft.vrl.v3d.Transform;
 
-return new DhInverseSolver() {
-	
-	@Override
-	public double[] inverseKinematics(TransformNR target,
-			double[] jointSpaceVector,DHChain chain ) {
-		ArrayList<DHLink> links = chain.getLinks();
-		// THis is the jacobian for the given configuration
-		//Matrix jacobian =  chain.getJacobian(jointSpaceVector);
-		Matrix taskSpacMatrix = target.getMatrixTransform();
-		
-		int linkNum = jointSpaceVector.length;
-		double [] inv = new double[linkNum];
-		// this is an ad-hock kinematic model for d-h parameters and only works for specific configurations
-		
-		double d = links.get(1).getD()- links.get(2).getD();
-		double r = links.get(0).getR();
+public class scriptJavaIKModel implements DhInverseSolver {
 
-		double lengthXYPlaneVect = Math.sqrt(Math.pow(target.getX(),2)+Math.pow(target.getY(),2));
-		double angleXYPlaneVect = Math.asin(target.getY()/lengthXYPlaneVect);
-		
-		double angleRectangleAdjustedXY =Math.asin(d/lengthXYPlaneVect);
-		
-		double lengthRectangleAdjustedXY = lengthXYPlaneVect* Math.cos(angleRectangleAdjustedXY)-r;
-		
-		
-		double orentation = angleXYPlaneVect-angleRectangleAdjustedXY;
-		if(Math.abs(Math.toDegrees(orentation))<0.01){
-			orentation=0;
-		}
-		double ySet = lengthRectangleAdjustedXY*Math.sin(orentation);
-		double xSet = lengthRectangleAdjustedXY*Math.cos(orentation);
-	
-		
-		double zSet = target.getZ() - links.get(0).getD();
-		if(links.size()==5){
-			double tipAngulationSum =Math.toDegrees( links.get(1).getTheta()+
-								links.get(2).getTheta()+
-								links.get(4).getTheta())
-			//println "Tip angulation orentation = "+tipAngulationSum
-			if(tipAngulationSum==90)
-				zSet+=links.get(4).getD();
-			else{
-				double tipySet = links.get(4).getR()*Math.sin(orentation);
-				double tipxSet = links.get(4).getR()*Math.cos(orentation);
-				//println "5 links back Setting tip x="+tipxSet+" y="+tipySet
-				xSet-=tipxSet
-				ySet-=tipySet
-			}
-		}
-		if(links.size()==4){
-			double tipAngulationSum =Math.toDegrees( links.get(1).getTheta()+
-								links.get(2).getTheta()+
-								links.get(3).getTheta())
-			//println "Tip angulation orentation = "+tipAngulationSum
-			if(tipAngulationSum==90)
-				zSet+=links.get(3).getR();
-			else{
-				double tipySet = links.get(3).getR()*Math.sin(orentation);
-				double tipxSet = links.get(3).getR()*Math.cos(orentation);
-				//println "4 links back Setting tip x="+tipxSet+" y="+tipySet
-				xSet-=tipxSet
-				ySet-=tipySet
-			}
-		}
-		// Actual target for anylitical solution is above the target minus the z offset
-		TransformNR overGripper = new TransformNR(
-				xSet,
-				ySet,
-				zSet,
-				target.getRotation());
-
-
-		double l1 = links.get(1).getR();// First link length
-		double l2 = links.get(2).getR();
-
-		double vect = Math.sqrt(xSet*xSet+ySet*ySet+zSet*zSet);
-		/*
-		println ( "TO: "+target);
-		println ( "Trangular TO: "+overGripper);
-		println ( "lengthXYPlaneVect: "+lengthXYPlaneVect);
-		println( "angleXYPlaneVect: "+Math.toDegrees(angleXYPlaneVect));
-		println( "angleRectangleAdjustedXY: "+Math.toDegrees(angleRectangleAdjustedXY));
-		println( "lengthRectangleAdjustedXY: "+lengthRectangleAdjustedXY);
-		println( "r: "+r);
-		println( "d: "+d);
-		
-		println( "x Correction: "+xSet);
-		println( "y Correction: "+ySet);
-		
-		println( "Orentation: "+Math.toDegrees(orentation));
-		println( "z: "+zSet);
-	*/
-		
-
-		if (vect > l1+l2 ||  vect<0 ||lengthRectangleAdjustedXY<0 ) {
-			throw new RuntimeException("Hypotenus too long: "+vect+" longer then "+l1+l2);
-		}
-		//from https://www.mathsisfun.com/algebra/trig-solving-sss-triangles.html
-		double a=l2;
-		double b=l1;
-		double c=vect;
-		double A =Math.acos((Math.pow(b,2)+ Math.pow(c,2) - Math.pow(a,2)) / (2.0*b*c));
-		double B =Math.acos((Math.pow(c,2)+ Math.pow(a,2) - Math.pow(b,2)) / (2.0*a*c));
-		double C =Math.PI-A-B;//Rule of triangles
-		double elevation = Math.asin(zSet/vect);
-
-/*
-		println( "vect: "+vect);
-		println( "A: "+Math.toDegrees(A));
-		println( "elevation: "+Math.toDegrees(elevation));
-		println( "l1 from x/y plane: "+Math.toDegrees(A+elevation));
-		println( "l2 from l1: "+Math.toDegrees(C));
-		*/
-		inv[0] = Math.toDegrees(orentation);
-		inv[1] = -Math.toDegrees((A+elevation+links.get(1).getTheta()));
-		if((int)links.get(1).getAlpha() ==180){
-			inv[2] = (Math.toDegrees(C))-180-//interior angle of the triangle, map to external angle
-					Math.toDegrees(links.get(2).getTheta());// offset for kinematics
-		}
-		if((int)links.get(1).getAlpha() ==0){
-			inv[2] = -(Math.toDegrees(C))+Math.toDegrees(links.get(2).getTheta());// offset for kinematics
-		}
-		if(links.size()>3)
-			inv[3] =-(inv[1] + inv[2]);// keep it parallell
-			// We know the wrist twist will always be 0 for this model
-		if(links.size()>4)
-			inv[4] = inv[0];//keep the tool orentation paralell from the base
-		
-		for(int i=0;i<inv.length;i++){
-			if(Math.abs(inv[i]) < 0.01){
-				inv[i]=0;
-			}
-//			println( "Link#"+i+" is set to "+inv[i]);
-		}
-		int i=3;
-		if(links.size()>3)
-			i=5;
-		//copy over remaining links so they do not move
-		for(;i<inv.length && i<jointSpaceVector.length ;i++){
-			inv[i]=jointSpaceVector[i];
-		}
-		return inv;
+	int limbIndex =0;
+	public scriptJavaIKModel(int index){
+		limbIndex=index;
 	}
-};
+
+	@Override
+	public double[] inverseKinematics(TransformNR target, double[] jointSpaceVector, DHChain chain) {
+		//System.out.println("My IK");
+//		try {
+			ArrayList<DHLink> links = chain.getLinks();
+			int linkNum = jointSpaceVector.length;
+
+			double z = target.getZ();
+			double y = target.getY();
+			double x = target.getX();
+			//		  z = Math.round(z*100.0)/100.0;
+			//		  y = Math.round(y*100.0)/100.0;
+			//            x = Math.round(x*100.0)/100.0;
+			//
+			RotationNR q = target.getRotation();
+
+			//System.out.println("elevation: " + elev);
+			//System.out.println("z: " + z);
+			//System.out.println("y: " + y);
+			//System.out.println("x: " + x);
+
+			//double Oang = Math.PI/2 + q.getRotationElevation();
+			//            double Oang = Math.toRadians(45);
+			//
+			//            double Oanginv = (Math.PI/2) - Oang;
+
+			double l1_d = links.get(0).getR();
+			double l2_d = links.get(1).getR();
+			double l3_d = links.get(2).getR();
+
+			double l4_d=0;// in 3 dof, this is 0
+			if(links.size()>3)
+				l4_d   = links.get(3).getR();
+
+			//System.out.println("L1: " + l1_d);
+			//System.out.println("L2: " + l2_d);
+			//System.out.println("L3: " + l3_d);
+			//System.out.println("L4: " + l4_d);
+
+
+			double[] inv = new double[linkNum];
+			double a1 = Math.atan2(y , x);
+			double a1d = Math.toDegrees(a1);
+
+			def newTip = new Transform()
+					.movex(x)
+					.movey(y)
+					.movez(z)
+					.rotz(a1d)
+			//println newTip
+
+			x=newTip.getX()
+			y=newTip.getY()
+			z=newTip.getZ()
+			//System.out.println(" Base Angle : " + a1d);
+			//System.out.println(" Base Orented z: " + z);
+			//System.out.println(" Base Orented y: " + y);
+			//System.out.println(" Base Orented x: " + x);
+
+			double a2 = Math.atan2(z,x); // Z angle using x axis and z axis
+			double a2d = Math.toDegrees(a2);
+			//println a2d
+			double elev = Math.toDegrees(q.getRotationElevation() )
+			//println "R Vector Angle "+a2d
+
+			double r1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // X and Y plane Vector
+			double r2 = Math.sqrt(Math.pow(x, 2) + Math.pow(y,2)+Math.pow(z, 2)); // Leg Vector
+			double r3 = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)); // x and z vector
+/*
+			def rvector = new Cube(r2,1,1).toCSG()
+					.toXMin()
+					.roty(a2d)
+
+			def rvectorOrig = rvector.rotz(-a1d)
+					.setColor(javafx.scene.paint.Color.BLUE)
+			BowlerStudioController.addCsg(rvector)
+			BowlerStudioController.addCsg(rvectorOrig)
+*/
+			def wristCenter = new Transform()
+					.movex(-l4_d)
+					.roty(-elev)
+					.movey(y)
+					.movez(z-links.get(0).getD())
+					.movex(x-l1_d)
+/*
+			def foot = new Cube(l4_d>0?l4_d:1,1,1).toCSG()
+					.toXMin()
+					.transformed(wristCenter)
+					.setColor(javafx.scene.paint.Color.AQUA)
+			BowlerStudioController.addCsg(foot)
+*/
+			x=wristCenter.getX()
+			y=wristCenter.getY()
+			z=wristCenter.getZ()
+			double wristAngle = Math.atan2(z,x);
+			double wristAngleDeg =Math.toDegrees(wristAngle)
+			double wristVect =  Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)); // x and z vector
+			if(wristVect>l2_d+l3_d)
+				throw new ArithmeticException("Total reach longer than possible "+inv);
+			//System.out.println(" Wrist Angle: " + wristAngleDeg);
+			//System.out.println(" Wrist Vect: " + wristVect);
+			//System.out.println(" Wrist z: " + z);
+			//System.out.println(" Wrist y: " + y);
+			//System.out.println(" Wrist x: " + x);
+/*
+			def wristVector = new Cube(wristVect,1,1).toCSG()
+					.toXMin()
+					.roty(wristAngleDeg)
+					.setColor(javafx.scene.paint.Color.WHITE)
+			BowlerStudioController.addCsg(wristVector)
+*/
+			double shoulderTiltAngle = Math.toDegrees(Math.acos(
+					(Math.pow(l2_d,2)+Math.pow(wristVect,2)-Math.pow(l3_d,2))/
+					(2*l2_d*wristVect)
+					))
+			double elbowTiltAngle = Math.toDegrees(Math.acos(
+					(Math.pow(l3_d,2)+Math.pow(l2_d,2)-Math.pow(wristVect,2))/
+					(2*l3_d*l2_d)
+					))
+/*
+			def shoulderVector = new Cube(l2_d,1,1).toCSG()
+					.toXMin()
+					.roty(wristAngleDeg+shoulderTiltAngle)
+					.setColor(javafx.scene.paint.Color.GRAY)
+			BowlerStudioController.addCsg(shoulderVector)
+*/
+			inv[0]=a1d
+			if(Math.toDegrees(links.get(2).getTheta())<0){
+				inv[1]=wristAngleDeg+shoulderTiltAngle-Math.toDegrees(links.get(1).getTheta())
+				inv[2]=elbowTiltAngle-180-Math.toDegrees(links.get(2).getTheta())
+			}else{
+				inv[1]=-(wristAngleDeg+shoulderTiltAngle+Math.toDegrees(links.get(1).getTheta()))
+				inv[2]=(180-elbowTiltAngle-Math.toDegrees(links.get(2).getTheta()))
+			}
+			if(links.size()>3)
+				inv[3]=-inv[1]-inv[2]-Math.toDegrees(links.get(3).getTheta())-elev-
+						Math.toDegrees(links.get(1).getTheta())-
+						Math.toDegrees(links.get(2).getTheta())
+			//System.out.println(inv[0]);
+			//System.out.println(inv[1]);
+			//System.out.println(inv[2]);
+			//System.out.println(inv[3]);
+			if(links.size()>3)
+				if(Double.isNaN(inv[0]) || Double.isNaN(inv[1]) || Double.isNaN(inv[2]) || Double.isNaN(inv[3]))
+					throw new ArithmeticException("Can't move to that position "+inv);
+			else if(Double.isNaN(inv[0]) || Double.isNaN(inv[1]) || Double.isNaN(inv[2]) )
+				throw new ArithmeticException("Can't move to that position "+inv);
+			
+			//println "Success "+inv
+			return inv;
+//		} catch (Throwable t) {
+//			BowlerStudio.printStackTrace(t);
+//			return jointSpaceVector;
+//		}
+	}
+
+}
+
+if(args==null)
+	args=[0]
+return new scriptJavaIKModel (args[0])
