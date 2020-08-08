@@ -9,7 +9,7 @@
 		<file>walking.groovy</file>
 	</driveEngine>
 
-<name>6dofServoArm</name>
+<name>kevkat</name>
 <appendage>
 
 <name>RearLeft</name>
@@ -231,17 +231,17 @@
 	<roty>-0.0</roty>
 	<rotz>-0.0</rotz>
 </baseToZframe>
-	<mass>0.4157</mass>
-	<centerOfMassFromCentroid>	<x>-44.36</x>
+	<mass>0.001</mass>
+	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
-	<z>115.0</z>
+	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
 	<roty>0.0</roty>
 	<rotz>0.0</rotz></centerOfMassFromCentroid>
 	<imuFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
-	<z>120.0</z>
+	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>-0.0</rotx>
 	<roty>-0.0</roty>
