@@ -26,8 +26,8 @@
 	<deviceName>kevkat</deviceName>
 	<type>hidfast</type>
 	<index>1</index>
-	<scale>-0.512698413</scale>
-	<upperLimit>180.0</upperLimit>
+	<scale>1.0</scale>
+	<upperLimit>179.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
@@ -43,12 +43,12 @@
 		<vitamin>
 			<name>electroMechanical</name>
 			<type>hobbyServo</type>
-			<id>DHV56mg_sub_Micro</id>
+			<id>towerProMG91</id>
 		</vitamin>
 		<vitamin>
 			<name>shaft</name>
 			<type>hobbyServoHorn</type>
-			<id>DHV56mg_sub_Micro_1</id>
+			<id>tproSG90_1</id>
 		</vitamin>
 
 	</vitamins>
@@ -82,12 +82,12 @@
 	<deviceName>kevkat</deviceName>
 	<type>hidfast</type>
 	<index>2</index>
-	<scale>-0.512698413</scale>
-	<upperLimit>142.0</upperLimit>
-	<lowerLimit>5.625</lowerLimit>
+	<scale>1.0</scale>
+	<upperLimit>180.0</upperLimit>
+	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>99.6783088235294</staticOffset>
+	<staticOffset>90.0</staticOffset>
 	<deviceTheoreticalMax>180.0</deviceTheoreticalMax>
 	<deviceTheoreticalMin>0.0</deviceTheoreticalMin>
 	<isLatch>true</isLatch>
@@ -99,12 +99,12 @@
 		<vitamin>
 			<name>electroMechanical</name>
 			<type>hobbyServo</type>
-			<id>DHV56mg_sub_Micro</id>
+			<id>towerProMG91</id>
 		</vitamin>
 		<vitamin>
 			<name>shaft</name>
 			<type>hobbyServoHorn</type>
-			<id>DHV56mg_sub_Micro_1</id>
+			<id>tproSG90_1</id>
 		</vitamin>
 
 	</vitamins>
@@ -138,12 +138,12 @@
 	<deviceName>kevkat</deviceName>
 	<type>hidfast</type>
 	<index>0</index>
-	<scale>-0.512698413</scale>
-	<upperLimit>157.5</upperLimit>
-	<lowerLimit>7.5</lowerLimit>
+	<scale>1.0</scale>
+	<upperLimit>180.0</upperLimit>
+	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>82.65144863915715</staticOffset>
+	<staticOffset>90.0</staticOffset>
 	<deviceTheoreticalMax>180.0</deviceTheoreticalMax>
 	<deviceTheoreticalMin>0.0</deviceTheoreticalMin>
 	<isLatch>true</isLatch>
@@ -155,12 +155,12 @@
 		<vitamin>
 			<name>electroMechanical</name>
 			<type>hobbyServo</type>
-			<id>DHV56mg_sub_Micro</id>
+			<id>towerProMG91</id>
 		</vitamin>
 		<vitamin>
 			<name>shaft</name>
 			<type>hobbyServoHorn</type>
-			<id>DHV56mg_sub_Micro_1</id>
+			<id>tproSG90_1</id>
 		</vitamin>
 
 	</vitamins>
