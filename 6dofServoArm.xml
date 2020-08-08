@@ -9,10 +9,10 @@
 		<file>walking.groovy</file>
 	</driveEngine>
 
-<name>kevkat</name>
+<name>Standard6dof</name>
 <appendage>
 
-<name>RearLeft</name>
+<name>Standard6dofArm</name>
 	<cadEngine>
 		<git>https://github.com/madhephaestus/6dofServoArm.git</git>
 		<file>Bowler/MediumCad.groovy</file>
