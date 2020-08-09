@@ -24,7 +24,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.RotationOrder
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class scriptJavaIKModel implements DhInverseSolver {
-	boolean debug = true;
+	boolean debug = false;
 	CSG tipPointer =null;
 	CSG tipPointer2 =null;
 	CSG tipPointer3 =null;
@@ -100,7 +100,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		double a1d = Math.toDegrees(baseVectorAngle);
 		// this projection number becomes the base link angle directly
 		jointSpaceVector[0]=a1d;
-		println "New base "+a1d
+		if(debug)println "New base "+a1d
 		//jointSpaceVector[0]=0;// TESTING
 
 		// Rotate the tip into the xZ plane
@@ -123,7 +123,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		x=newTip.getX()
 		y=newTip.getY()
 		z=newTip.getZ()
-		println "New Tip                             \tx="+x+" y="+y+" and z should be 0 and is="+z
+		if(debug)println "New Tip                             \tx="+x+" y="+y+" and z should be 0 and is="+z
 
 
 		//println newTip
@@ -131,7 +131,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		// this is the angle of the vector from base to tip
 		double tipToBaseAngle = Math.atan2(y,x); // we now have the rest of the links in the XY plane
 		double tipToBaseAngleDegrees = Math.toDegrees(tipToBaseAngle);
-		println "Base link to tip angle elevation "+tipToBaseAngleDegrees
+		if(debug)println "Base link to tip angle elevation "+tipToBaseAngleDegrees
 		def transformAngleOfTipToTriangle = new TransformNR(0,0,0,new RotationNR(0,-tipToBaseAngleDegrees,0))
 		def xyTip = new TransformNR(x,y,0,new RotationNR())
 		//Transform the tip into the x Vector
@@ -150,7 +150,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 				Math.pow(wristCenterToElbow.getX(), 2));
 		// assume no D on this link as that would break everything
 		double elbowLink1CompositeLength = links.get(1).getR();
-		println "Elbow 2 link data "+elbowLink2CompositeAngleDegrees+" vector "+elbowLink2CompositeLength
+		if(debug)println "Elbow 2 link data "+elbowLink2CompositeAngleDegrees+" vector "+elbowLink2CompositeLength
 
 		if(wristVect>elbowLink2CompositeLength+elbowLink1CompositeLength)
 			throw new ArithmeticException("Total reach longer than possible "+inv);
@@ -205,7 +205,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 				jointSpaceVector[i]=0;
 			}
 		}
-		println "Euler Decomposition proccesed \n"+jointSpaceVector[3]+" \n"+jointSpaceVector[4]+" \n"+jointSpaceVector[5]
+		if(debug)println "Euler Decomposition proccesed \n"+jointSpaceVector[3]+" \n"+jointSpaceVector[4]+" \n"+jointSpaceVector[5]
 		//println "Law of cosines results "+shoulderTiltAngle+" and "+elbowTiltAngle
 		return jointSpaceVector;
 	}
