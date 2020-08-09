@@ -360,7 +360,7 @@
 <link>
 	<name>tool</name>
 	<deviceName>kevkat</deviceName>
-	<type>hidfast</type>
+	<type>pid-tool</type>
 	<index>6</index>
 	<scale>2.0</scale>
 	<upperLimit>180.0</upperLimit>
