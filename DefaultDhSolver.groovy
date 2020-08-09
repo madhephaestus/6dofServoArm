@@ -75,7 +75,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		// Start by finding the IK to the wrist center
 		if(linkNum>=6) {
 			//offset for tool
-			println "Offestting for tool"
+			if(debug)println "Offestting for tool"
 			def tool = new TransformNR()
 			if(linkNum==7)
 				tool=linkOffset(links.get(6))
