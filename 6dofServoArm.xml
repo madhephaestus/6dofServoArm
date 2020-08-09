@@ -18,7 +18,7 @@
 		<file>Bowler/MediumCad.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
+		<git>https://github.com/madhephaestus/6dofServoArm.git</git>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
