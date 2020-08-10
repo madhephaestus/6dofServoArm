@@ -24,7 +24,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.RotationOrder
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class scriptJavaIKModel implements DhInverseSolver {
-	boolean debug = false;
+	boolean debug = true;
 	CSG tipPointer =null;
 	CSG tipPointer2 =null;
 	CSG tipPointer3 =null;
@@ -153,7 +153,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		if(debug)println "Elbow 2 link data "+elbowLink2CompositeAngleDegrees+" vector "+elbowLink2CompositeLength
 
 		if(wristVect>elbowLink2CompositeLength+elbowLink1CompositeLength)
-			throw new ArithmeticException("Total reach longer than possible "+inv);
+			throw new ArithmeticException("Total reach longer than possible "+target);
 		// Use the law of cosines to calculate the elbow and the shoulder tilt
 		double shoulderTiltAngle =-( Math.toDegrees(Math.acos(
 				(Math.pow(elbowLink1CompositeLength,2)+Math.pow(wristVect,2)-Math.pow(elbowLink2CompositeLength,2))/
@@ -170,8 +170,14 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		chain.forwardKinematicsMatrix(jointSpaceVector,chainToLoad)
 		def	startOfWristSet=chainToLoad.get(2);
 		// compute a tip angle vector
-		def	virtualTip = newCenter.times(new TransformNR().translateZ(10))
-		TransformNR wristMOvedToCenter =startOfWristSet.inverse().times(target)
+		def localremoveTheTHetaOfLink3 = new TransformNR(0,0,0,
+		new RotationNR(0,
+		-Math.toDegrees(links.get(3).getTheta()),// remove the theta for the first link so the euler angles line up
+		0))
+		TransformNR wristMOvedToCenter =localremoveTheTHetaOfLink3.times(startOfWristSet
+											.inverse()// move back from base ot wrist to world home
+											.times(target)// move forward to target, leaving the angle between the tip and the start of the rotation 
+											)
 
 		RotationNR qWrist=wristMOvedToCenter.getRotation()
 
@@ -186,7 +192,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		//		Rotation wristDecompositionRotation =new Rotation(tip,centerOfWrist,topOfWrist,centerOfWrist)
 		//
 		//		def angles =wristDecompositionRotation.getAngles(RotationOrder.ZYX, RotationConvention.VECTOR_OPERATOR)
-		double w0=Math.toDegrees(qWrist.getRotationAzimuth())+Math.toDegrees(links.get(3).getTheta())+90
+		double w0=Math.toDegrees(qWrist.getRotationAzimuth())+90//-Math.toDegrees(links.get(3).getTheta())//+90
 		double w1=Math.toDegrees(qWrist.getRotationTilt())+Math.toDegrees(links.get(4).getTheta())
 		double w2=Math.toDegrees(qWrist.getRotationElevation())+Math.toDegrees(links.get(5).getTheta())-90
 
