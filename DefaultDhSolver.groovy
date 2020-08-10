@@ -24,7 +24,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.RotationOrder
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class scriptJavaIKModel implements DhInverseSolver {
-	boolean debug = false;
+	boolean debug = true;
 	CSG tipPointer =null;
 	CSG tipPointer2 =null;
 	CSG tipPointer3 =null;

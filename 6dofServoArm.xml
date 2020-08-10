@@ -24,8 +24,8 @@
 <link>
 	<name>basePan</name>
 	<deviceName>kevkat</deviceName>
-	<type>hidfast</type>
-	<index>1</index>
+	<type>pid-g</type>
+	<index>0</index>
 	<scale>1.0</scale>
 	<upperLimit>179.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
@@ -80,8 +80,8 @@
 <link>
 	<name>baseTilt</name>
 	<deviceName>kevkat</deviceName>
-	<type>hidfast</type>
-	<index>2</index>
+	<type>pid-g</type>
+	<index>1</index>
 	<scale>2.0</scale>
 	<upperLimit>180.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
@@ -136,8 +136,8 @@
 <link>
 	<name>elbow</name>
 	<deviceName>kevkat</deviceName>
-	<type>hidfast</type>
-	<index>0</index>
+	<type>pid-g</type>
+	<index>2</index>
 	<scale>1.0</scale>
 	<upperLimit>180.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
@@ -191,9 +191,9 @@
 </link>
 <link>
 	<name>wrist1</name>
-	<deviceName>kevkat</deviceName>
-	<type>hidfast</type>
-	<index>3</index>
+	<deviceName>kevkat1</deviceName>
+	<type>pid-g</type>
+	<index>0</index>
 	<scale>2.0</scale>
 	<upperLimit>180.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
@@ -247,9 +247,9 @@
 </link>
 <link>
 	<name>wrist2</name>
-	<deviceName>kevkat</deviceName>
-	<type>hidfast</type>
-	<index>4</index>
+	<deviceName>kevkat1</deviceName>
+	<type>pid-g</type>
+	<index>1</index>
 	<scale>2.0</scale>
 	<upperLimit>179.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
@@ -303,9 +303,9 @@
 </link>
 <link>
 	<name>wrist3</name>
-	<deviceName>kevkat</deviceName>
-	<type>hidfast</type>
-	<index>5</index>
+	<deviceName>kevkat1</deviceName>
+	<type>pid-g</type>
+	<index>2</index>
 	<scale>2.0</scale>
 	<upperLimit>180.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
