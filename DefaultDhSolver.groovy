@@ -185,6 +185,8 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		if(debug)println 	wristMOvedToCenter0								
 		RotationNR qWrist=wristMOvedToCenter0.getRotation()
 		jointSpaceVector[3]=(Math.toDegrees(Math.atan2(wristMOvedToCenter0.getY(), wristMOvedToCenter0.getX()))-Math.toDegrees(links.get(3).getTheta()))
+		if(jointSpaceVector.length==4)
+			return jointSpaceVector
 		
 		chainToLoad =[]
 		/**
@@ -202,7 +204,8 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		jointSpaceVector[4]=(Math.toDegrees(Math.atan2(wristMOvedToCenter1.getY(), wristMOvedToCenter1.getX()))-
 			Math.toDegrees(links.get(4).getTheta())+
 			90)
-		
+		if(jointSpaceVector.length==5)
+			return jointSpaceVector
 		chainToLoad =[]
 		/**
 		// Calculte the last angle
@@ -222,17 +225,17 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		if(debug)Platform.runLater({TransformFactory.nrToAffine(wristMOvedToCenter1,green.getManipulator())})
 		if(debug)Platform.runLater({TransformFactory.nrToAffine(wristMOvedToCenter2,red.getManipulator())})
 
-		for(int i=3;i<6;i++) {
+		for(int i=3;i<jointSpaceVector.length;i++) {
 			if(jointSpaceVector[i]>180)
 				jointSpaceVector[i]-=360.0
 			if(jointSpaceVector[i]<-180)
 				jointSpaceVector[i]+=360.0
 		}
-		for(int i=0;i<jointSpaceVector.length;i++) {
-			if(Math.abs(jointSpaceVector[i])<0.001) {
-				jointSpaceVector[i]=0;
-			}
-		}
+//		for(int i=0;i<jointSpaceVector.length;i++) {
+//			if(Math.abs(jointSpaceVector[i])<0.001) {
+//				jointSpaceVector[i]=0;
+//			}
+//		}
 		if(debug)println "Euler Decomposition proccesed \n"+jointSpaceVector[3]+" \n"+jointSpaceVector[4]+" \n"+jointSpaceVector[5]
 		//println "Law of cosines results "+shoulderTiltAngle+" and "+elbowTiltAngle
 		return jointSpaceVector;
