@@ -714,8 +714,8 @@
 </ZframeToRAS>
 
 <baseToZframe>
-	<x>20</x>
-	<y>0.0</y>
+	<x>0</x>
+	<y>50</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>-0.0</rotx>
