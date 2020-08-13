@@ -184,9 +184,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 											.times(target)// move forward to target, leaving the angle between the tip and the start of the rotation 
 		println 	wristMOvedToCenter0								
 		RotationNR qWrist=wristMOvedToCenter0.getRotation()
-		jointSpaceVector[3]=Math.toDegrees(Math.atan2(wristMOvedToCenter0.getY(), wristMOvedToCenter0.getX()))
-							-Math.toDegrees(links.get(3).getTheta())
-							+90;
+		jointSpaceVector[3]=(Math.toDegrees(Math.atan2(wristMOvedToCenter0.getY(), wristMOvedToCenter0.getX()))-Math.toDegrees(links.get(3).getTheta()))
 		
 		chainToLoad =[]
 		/**
@@ -201,9 +199,9 @@ public class scriptJavaIKModel implements DhInverseSolver {
 											.times(target)// move forward to target, leaving the angle between the tip and the start of the rotation
 		println " Middle link ="	+wristMOvedToCenter1
 		RotationNR qWrist2=wristMOvedToCenter1.getRotation()
-		jointSpaceVector[4]=Math.toDegrees(Math.atan2(wristMOvedToCenter1.getY(), wristMOvedToCenter0.getX()))
-							-Math.toDegrees(links.get(4).getTheta())
-							-90
+		jointSpaceVector[4]=(Math.toDegrees(Math.atan2(wristMOvedToCenter1.getY(), wristMOvedToCenter1.getX()))-
+			Math.toDegrees(links.get(4).getTheta())+
+			90)
 		
 		chainToLoad =[]
 		/**
@@ -218,7 +216,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 											.times(target)// move forward to target, leaving the angle between the tip and the start of the rotation
 		println "\n\nLastLink "	+wristMOvedToCenter2
 		RotationNR qWrist3=wristMOvedToCenter2.getRotation()
-		jointSpaceVector[5]=Math.toDegrees(qWrist3.getRotationAzimuth())-Math.toDegrees(links.get(5).getTheta())
+		jointSpaceVector[5]=(Math.toDegrees(qWrist3.getRotationAzimuth())-Math.toDegrees(links.get(5).getTheta()))
 		
 		if(debug)Platform.runLater({TransformFactory.nrToAffine(wristMOvedToCenter0,blue.getManipulator())})
 		if(debug)Platform.runLater({TransformFactory.nrToAffine(wristMOvedToCenter1,green.getManipulator())})
