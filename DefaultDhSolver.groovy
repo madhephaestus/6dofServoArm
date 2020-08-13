@@ -24,7 +24,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.RotationOrder
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class scriptJavaIKModel implements DhInverseSolver {
-	boolean debug = false;
+	boolean debug = true;
 	CSG blue =null;
 	CSG green =null;
 	CSG red =null;
@@ -93,6 +93,8 @@ public class scriptJavaIKModel implements DhInverseSolver {
 
 			//if(debug)Platform.runLater({TransformFactory.nrToAffine(newCenter,tipPointer2.getManipulator())})
 		}
+		def virtualcenter = newCenter.times(new TransformNR(0,0,10,
+			 new RotationNR(Math.toDegrees(links.get(5).getAlpha()),0,0)))
 		// recompute the X,y,z with the new center
 		z = newCenter.getZ();
 		y = newCenter.getY();
@@ -181,7 +183,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		def	startOfWristSet=chainToLoad.get(2);
 		TransformNR wristMOvedToCenter0 =startOfWristSet
 											.inverse()// move back from base ot wrist to world home
-											.times(target)// move forward to target, leaving the angle between the tip and the start of the rotation 
+											.times(virtualcenter)// move forward to target, leaving the angle between the tip and the start of the rotation 
 		if(debug)println 	wristMOvedToCenter0								
 		RotationNR qWrist=wristMOvedToCenter0.getRotation()
 		jointSpaceVector[3]=(Math.toDegrees(Math.atan2(wristMOvedToCenter0.getY(), wristMOvedToCenter0.getX()))-Math.toDegrees(links.get(3).getTheta()))
@@ -198,7 +200,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		def	startOfWristSet2=chainToLoad.get(3);
 		TransformNR wristMOvedToCenter1 =startOfWristSet2
 											.inverse()// move back from base ot wrist to world home
-											.times(target)// move forward to target, leaving the angle between the tip and the start of the rotation
+											.times(virtualcenter)// move forward to target, leaving the angle between the tip and the start of the rotation
 		if(debug)println " Middle link ="	+wristMOvedToCenter1
 		RotationNR qWrist2=wristMOvedToCenter1.getRotation()
 		jointSpaceVector[4]=(Math.toDegrees(Math.atan2(wristMOvedToCenter1.getY(), wristMOvedToCenter1.getX()))-
