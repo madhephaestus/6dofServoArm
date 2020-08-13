@@ -25,9 +25,10 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class scriptJavaIKModel implements DhInverseSolver {
 	boolean debug = true;
-	CSG tipPointer =null;
-	CSG tipPointer2 =null;
-	CSG tipPointer3 =null;
+	CSG blue =null;
+	CSG green =null;
+	CSG red =null;
+	CSG white =null;
 	int limbIndex =0;
 	public scriptJavaIKModel(int index){
 		limbIndex=index;
@@ -44,19 +45,23 @@ public class scriptJavaIKModel implements DhInverseSolver {
 	}
 	public double[] inverseKinematics6dof(TransformNR target, double[] jointSpaceVector, DHChain chain) {
 		if(debug) {
-			if(tipPointer==null) {
-				tipPointer=new Cylinder(0, 5, 30,9).toCSG()
-						.rotx(90)
+			if(blue==null) {
+				blue=new Cylinder(0, 5, 30,9).toCSG()
+						//.roty(-90)
 						.setColor(javafx.scene.paint.Color.BLUE)
-				tipPointer2=new Cylinder(0, 5, 30,9).toCSG().rotx(90)
+				green=new Cylinder(0, 5, 30,9).toCSG()//.roty(-90)
 						.setColor(javafx.scene.paint.Color.GREEN)
-				tipPointer3=new Cylinder(0, 5, 30,9).toCSG().rotx(90)
-						.setColor(javafx.scene.paint.Color.RED)
+				red=new Cylinder(0, 5, 30,9).toCSG()//.roty(-90)
+				.setColor(javafx.scene.paint.Color.RED)
+				white=new Cylinder(0, 5, 30,9).toCSG()//.roty(-90)
+				
+						.setColor(javafx.scene.paint.Color.WHITE)
 			}
-			BowlerStudioController.addCsg(tipPointer)
-			BowlerStudioController.addCsg(tipPointer2)
-			BowlerStudioController.addCsg(tipPointer3)
-			if(debug)Platform.runLater({TransformFactory.nrToAffine(target,tipPointer.getManipulator())})
+			BowlerStudioController.addCsg(blue)
+			BowlerStudioController.addCsg(green)
+			BowlerStudioController.addCsg(red)
+			BowlerStudioController.addCsg(white)
+			if(debug)Platform.runLater({TransformFactory.nrToAffine(target,white.getManipulator())})
 		}
 		//System.out.println("My 6dof IK "+target);
 		ArrayList<DHLink> links = chain.getLinks();
@@ -65,11 +70,12 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		TransformNR l1Offset = linkOffset(links.get(1))
 		TransformNR l2Offset = linkOffset(links.get(2))
 		TransformNR l3Offset = linkOffset(links.get(3))
-
 		// Vector decompose the tip target
 		double z = target.getZ();
 		double y = target.getY();
 		double x = target.getX();
+		def targetNoRot =new TransformNR(x,y,z,new RotationNR())
+		
 		RotationNR q = target.getRotation();
 		def newCenter =target.copy()
 		// Start by finding the IK to the wrist center
@@ -85,7 +91,6 @@ public class scriptJavaIKModel implements DhInverseSolver {
 			// take off the tool from the target to get the center of the wrist
 			newCenter = target.times(wristCenterOffsetTransform.inverse())
 
-			if(debug)Platform.runLater({TransformFactory.nrToAffine(target,tipPointer.getManipulator())})
 			//if(debug)Platform.runLater({TransformFactory.nrToAffine(newCenter,tipPointer2.getManipulator())})
 		}
 		// recompute the X,y,z with the new center
@@ -165,41 +170,60 @@ public class scriptJavaIKModel implements DhInverseSolver {
 				))+elbowLink2CompositeAngleDegrees-180)
 		jointSpaceVector[2]=elbowTiltAngle
 		jointSpaceVector[1]=shoulderTiltAngle
+		
+		
+		/**
 		// compute the top of the wrist now that the first 3 links are calculated
+		 * 
+		 */
 		ArrayList<TransformNR> chainToLoad =[]
 		chain.forwardKinematicsMatrix(jointSpaceVector,chainToLoad)
 		def	startOfWristSet=chainToLoad.get(2);
-		// compute a tip angle vector
-		def localremoveTheTHetaOfLink3 = new TransformNR(0,0,0,
-		new RotationNR(0,
-		-Math.toDegrees(links.get(3).getTheta()),// remove the theta for the first link so the euler angles line up
-		0))
-		TransformNR wristMOvedToCenter =localremoveTheTHetaOfLink3.times(startOfWristSet
+		TransformNR wristMOvedToCenter0 =startOfWristSet
 											.inverse()// move back from base ot wrist to world home
 											.times(target)// move forward to target, leaving the angle between the tip and the start of the rotation 
-											)
+		println 	wristMOvedToCenter0								
+		RotationNR qWrist=wristMOvedToCenter0.getRotation()
+		jointSpaceVector[3]=Math.toDegrees(Math.atan2(wristMOvedToCenter0.getY(), wristMOvedToCenter0.getX()))
+							-Math.toDegrees(links.get(3).getTheta())
+							+90;
+		
+		chainToLoad =[]
+		/**
+		// Calculte the second angle
+		 * 
+		 */
+		chainToLoad.clear()
+		chain.forwardKinematicsMatrix(jointSpaceVector,chainToLoad)
+		def	startOfWristSet2=chainToLoad.get(3);
+		TransformNR wristMOvedToCenter1 =startOfWristSet2
+											.inverse()// move back from base ot wrist to world home
+											.times(target)// move forward to target, leaving the angle between the tip and the start of the rotation
+		println " Middle link ="	+wristMOvedToCenter1
+		RotationNR qWrist2=wristMOvedToCenter1.getRotation()
+		jointSpaceVector[4]=Math.toDegrees(Math.atan2(wristMOvedToCenter1.getY(), wristMOvedToCenter0.getX()))
+							-Math.toDegrees(links.get(4).getTheta())
+							-90
+		
+		chainToLoad =[]
+		/**
+		// Calculte the last angle
+		 * 
+		 */
+		chain.forwardKinematicsMatrix(jointSpaceVector,chainToLoad)
+		def	startOfWristSet3=chainToLoad.get(4);
+		
+		TransformNR wristMOvedToCenter2 =startOfWristSet3
+											.inverse()// move back from base ot wrist to world home
+											.times(target)// move forward to target, leaving the angle between the tip and the start of the rotation
+		println "\n\nLastLink "	+wristMOvedToCenter2
+		RotationNR qWrist3=wristMOvedToCenter2.getRotation()
+		jointSpaceVector[5]=Math.toDegrees(qWrist3.getRotationAzimuth())-Math.toDegrees(links.get(5).getTheta())
+		
+		if(debug)Platform.runLater({TransformFactory.nrToAffine(wristMOvedToCenter0,blue.getManipulator())})
+		if(debug)Platform.runLater({TransformFactory.nrToAffine(wristMOvedToCenter1,green.getManipulator())})
+		if(debug)Platform.runLater({TransformFactory.nrToAffine(wristMOvedToCenter2,red.getManipulator())})
 
-		RotationNR qWrist=wristMOvedToCenter.getRotation()
-
-
-		// Now compute the 3 points of the wrist center
-		//		Vector3D topOfWrist = new Vector3D(startOfWristSet.getX(),startOfWristSet.getY(),startOfWristSet.getZ())
-		//		Vector3D centerOfWrist = new Vector3D(newCenter.getX(),newCenter.getY(),newCenter.getZ())
-		//		Vector3D tip = new Vector3D(virtualTip.getX(),virtualTip.getY(),virtualTip.getZ())
-		if(debug)Platform.runLater({TransformFactory.nrToAffine(newCenter,tipPointer2.getManipulator())})
-		if(debug)Platform.runLater({TransformFactory.nrToAffine(startOfWristSet,tipPointer3.getManipulator())})
-		//
-		//		Rotation wristDecompositionRotation =new Rotation(tip,centerOfWrist,topOfWrist,centerOfWrist)
-		//
-		//		def angles =wristDecompositionRotation.getAngles(RotationOrder.ZYX, RotationConvention.VECTOR_OPERATOR)
-		double w0=Math.toDegrees(qWrist.getRotationAzimuth())+90//-Math.toDegrees(links.get(3).getTheta())//+90
-		double w1=Math.toDegrees(qWrist.getRotationTilt())+Math.toDegrees(links.get(4).getTheta())
-		double w2=Math.toDegrees(qWrist.getRotationElevation())+Math.toDegrees(links.get(5).getTheta())-90
-
-		//println "Euler Decomposition \n"+w0+" \n"+w1+" \n"+w2
-		jointSpaceVector[3]=w0;
-		jointSpaceVector[4]=w1;
-		jointSpaceVector[5]=w2;
 		for(int i=3;i<6;i++) {
 			if(jointSpaceVector[i]>180)
 				jointSpaceVector[i]-=360.0
