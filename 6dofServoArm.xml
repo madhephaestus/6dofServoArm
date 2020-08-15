@@ -8,6 +8,11 @@
 		<git>https://github.com/madhephaestus/6dofServoArm.git</git>
 		<file>walking.groovy</file>
 	</driveEngine>
+	<parallelCadEngine>
+		<parallelGroup>disneyLeg</parallelGroup>
+		<git>https://gist.github.com/33f2c10ab3adc5bd91f0a58ea7f24d14.git</git>
+		<file>parallelTool.groovy</file>
+	</parallelCadEngine>
 
 <name>Standard6dof</name>
 <appendage>
@@ -382,6 +387,8 @@
 <appendage>
 
 <name>Standard6dofArm2</name>
+
+<parallelGroup>disneyLeg</parallelGroup>
 	<cadEngine>
 		<git>https://github.com/madhephaestus/6dofServoArm.git</git>
 		<file>Bowler/MediumCad.groovy</file>
