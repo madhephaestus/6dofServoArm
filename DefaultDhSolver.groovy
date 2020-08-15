@@ -180,7 +180,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		 */
 		ArrayList<TransformNR> chainToLoad =[]
 		chain.forwardKinematicsMatrix(jointSpaceVector,chainToLoad)
-		def	startOfWristSet=chainToLoad.get(2);
+		def	startOfWristSet=chain.kin.inverseOffset(chainToLoad.get(2));
 		TransformNR wristMOvedToCenter0 =startOfWristSet
 											.inverse()// move back from base ot wrist to world home
 											.times(virtualcenter)// move forward to target, leaving the angle between the tip and the start of the rotation 
@@ -197,7 +197,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		 */
 		chainToLoad.clear()
 		chain.forwardKinematicsMatrix(jointSpaceVector,chainToLoad)
-		def	startOfWristSet2=chainToLoad.get(3);
+		def	startOfWristSet2=chain.kin.inverseOffset(chainToLoad.get(3));
 		TransformNR wristMOvedToCenter1 =startOfWristSet2
 											.inverse()// move back from base ot wrist to world home
 											.times(virtualcenter)// move forward to target, leaving the angle between the tip and the start of the rotation
@@ -214,7 +214,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		 * 
 		 */
 		chain.forwardKinematicsMatrix(jointSpaceVector,chainToLoad)
-		def	startOfWristSet3=chainToLoad.get(4);
+		def	startOfWristSet3=chain.kin.inverseOffset(chainToLoad.get(4));
 		
 		TransformNR wristMOvedToCenter2 =startOfWristSet3
 											.inverse()// move back from base ot wrist to world home
