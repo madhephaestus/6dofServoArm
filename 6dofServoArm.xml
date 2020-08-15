@@ -18,6 +18,7 @@
 <appendage>
 
 <name>Standard6dofArm1</name>
+<parallelGroup>disneyLeg</parallelGroup>
 	<cadEngine>
 		<git>https://github.com/madhephaestus/6dofServoArm.git</git>
 		<file>Bowler/MediumCad.groovy</file>
@@ -387,6 +388,7 @@
 <appendage>
 
 <name>Standard6dofArm2</name>
+<parallelGroup>disneyLeg</parallelGroup>
 	<cadEngine>
 		<git>https://github.com/madhephaestus/6dofServoArm.git</git>
 		<file>Bowler/MediumCad.groovy</file>
@@ -959,6 +961,7 @@
 <appendage>
 
 <name>subArm2</name>
+<parallelGroup>disneyLeg</parallelGroup>
 	<cadEngine>
 		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>ThreeDPrintCad.groovy</file>
