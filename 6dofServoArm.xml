@@ -395,7 +395,7 @@
 <parallelGroupTipOffset>
 	<x>0.0</x>
 	<y>0.0</y>
-	<z>0.0</z>
+	<z>-100</z>
 	<rotw>1.0</rotw>
 	<rotx>-0.0</rotx>
 	<roty>-0.0</roty>
@@ -803,7 +803,7 @@
 	<deviceName>dyio</deviceName>
 	<type>servo-rotory</type>
 	<index>0</index>
-	<scale>0.33</scale>
+	<scale>2</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -859,7 +859,7 @@
 	<deviceName>dyio</deviceName>
 	<type>servo-rotory</type>
 	<index>1</index>
-	<scale>0.33</scale>
+	<scale>2</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -915,7 +915,7 @@
 	<deviceName>dyio</deviceName>
 	<type>servo-rotory</type>
 	<index>2</index>
-	<scale>0.33</scale>
+	<scale>2</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -1020,7 +1020,7 @@
 	<deviceName>dyio</deviceName>
 	<type>servo-rotory</type>
 	<index>3</index>
-	<scale>0.33</scale>
+	<scale>2</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -1076,7 +1076,7 @@
 	<deviceName>dyio</deviceName>
 	<type>servo-rotory</type>
 	<index>4</index>
-	<scale>0.33</scale>
+	<scale>2</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -1132,7 +1132,7 @@
 	<deviceName>dyio</deviceName>
 	<type>servo-rotory</type>
 	<index>5</index>
-	<scale>0.33</scale>
+	<scale>2</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
