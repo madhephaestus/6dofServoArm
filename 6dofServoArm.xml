@@ -778,16 +778,16 @@
 <parallelGroup>disneyLeg</parallelGroup>
 
 <parallelGroupTipOffset>
-	<x>0.0</x>
+	<x>50.0</x>
 	<y>0.0</y>
-	<z>0.0</z>
+	<z>20.0</z>
 	<rotw>1.0</rotw>
 	<rotx>-0.0</rotx>
 	<roty>-0.0</roty>
 	<rotz>-0.0</rotz>
 	<relativeTo>Standard6dofArm1</relativeTo>
 
-	<relativeToLink>1</relativeToLink>
+	<relativeToLink>2</relativeToLink>
 
 </parallelGroupTipOffset>
 	<cadEngine>
@@ -995,16 +995,16 @@
 <parallelGroup>disneyLeg</parallelGroup>
 
 <parallelGroupTipOffset>
-	<x>0.0</x>
+	<x>50.0</x>
 	<y>0.0</y>
-	<z>0.0</z>
+	<z>20.0</z>
 	<rotw>1.0</rotw>
 	<rotx>-0.0</rotx>
 	<roty>-0.0</roty>
 	<rotz>-0.0</rotz>
 	<relativeTo>Standard6dofArm2</relativeTo>
 
-	<relativeToLink>1</relativeToLink>
+	<relativeToLink>2</relativeToLink>
 
 </parallelGroupTipOffset>
 	<cadEngine>
