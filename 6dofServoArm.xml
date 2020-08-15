@@ -18,6 +18,7 @@
 <appendage>
 
 <name>Standard6dofArm1</name>
+
 <parallelGroup>disneyLeg</parallelGroup>
 	<cadEngine>
 		<git>https://github.com/madhephaestus/6dofServoArm.git</git>
@@ -388,7 +389,22 @@
 <appendage>
 
 <name>Standard6dofArm2</name>
+
 <parallelGroup>disneyLeg</parallelGroup>
+
+<parallelGroupTipOffset>
+	<x>0.0</x>
+	<y>0.0</y>
+	<z>0.0</z>
+	<rotw>1.0</rotw>
+	<rotx>-0.0</rotx>
+	<roty>-0.0</roty>
+	<rotz>-0.0</rotz>
+	<relativeTo>Standard6dofArm1</relativeTo>
+
+	<relativeToLink>5</relativeToLink>
+
+</parallelGroupTipOffset>
 	<cadEngine>
 		<git>https://github.com/madhephaestus/6dofServoArm.git</git>
 		<file>Bowler/MediumCad.groovy</file>
@@ -760,6 +776,20 @@
 <name>subArm1</name>
 
 <parallelGroup>disneyLeg</parallelGroup>
+
+<parallelGroupTipOffset>
+	<x>0.0</x>
+	<y>0.0</y>
+	<z>0.0</z>
+	<rotw>1.0</rotw>
+	<rotx>-0.0</rotx>
+	<roty>-0.0</roty>
+	<rotz>-0.0</rotz>
+	<relativeTo>Standard6dofArm1</relativeTo>
+
+	<relativeToLink>2</relativeToLink>
+
+</parallelGroupTipOffset>
 	<cadEngine>
 		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>ThreeDPrintCad.groovy</file>
@@ -961,7 +991,22 @@
 <appendage>
 
 <name>subArm2</name>
+
 <parallelGroup>disneyLeg</parallelGroup>
+
+<parallelGroupTipOffset>
+	<x>0.0</x>
+	<y>0.0</y>
+	<z>0.0</z>
+	<rotw>1.0</rotw>
+	<rotx>-0.0</rotx>
+	<roty>-0.0</roty>
+	<rotz>-0.0</rotz>
+	<relativeTo>Standard6dofArm2</relativeTo>
+
+	<relativeToLink>2</relativeToLink>
+
+</parallelGroupTipOffset>
 	<cadEngine>
 		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>ThreeDPrintCad.groovy</file>
@@ -1151,7 +1196,7 @@
 
 <baseToZframe>
 	<x>0.0</x>
-	<y>0.0</y>
+	<y>100.0</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
