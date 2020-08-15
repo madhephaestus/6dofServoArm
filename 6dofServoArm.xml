@@ -787,7 +787,7 @@
 	<rotz>-0.0</rotz>
 	<relativeTo>Standard6dofArm1</relativeTo>
 
-	<relativeToLink>2</relativeToLink>
+	<relativeToLink>1</relativeToLink>
 
 </parallelGroupTipOffset>
 	<cadEngine>
@@ -1004,7 +1004,7 @@
 	<rotz>-0.0</rotz>
 	<relativeTo>Standard6dofArm2</relativeTo>
 
-	<relativeToLink>2</relativeToLink>
+	<relativeToLink>1</relativeToLink>
 
 </parallelGroupTipOffset>
 	<cadEngine>
