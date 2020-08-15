@@ -395,7 +395,7 @@
 <parallelGroupTipOffset>
 	<x>0.0</x>
 	<y>0.0</y>
-	<z>-100</z>
+	<z>-100.0</z>
 	<rotw>1.0</rotw>
 	<rotx>-0.0</rotx>
 	<roty>-0.0</roty>
@@ -803,7 +803,7 @@
 	<deviceName>virtualDev</deviceName>
 	<type>virtual</type>
 	<index>9</index>
-	<scale>2</scale>
+	<scale>2.0</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -859,7 +859,7 @@
 	<deviceName>virtualDev</deviceName>
 	<type>virtual</type>
 	<index>10</index>
-	<scale>2</scale>
+	<scale>2.0</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -915,7 +915,7 @@
 	<deviceName>virtualDev</deviceName>
 	<type>virtual</type>
 	<index>11</index>
-	<scale>2</scale>
+	<scale>2.0</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -1020,7 +1020,7 @@
 	<deviceName>virtualDev</deviceName>
 	<type>virtual</type>
 	<index>15</index>
-	<scale>2</scale>
+	<scale>2.0</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -1066,7 +1066,7 @@
 	<DHParameters>
 		<Delta>0.0</Delta>
 		<Theta>0.0</Theta>
-		<Radius>60.0</Radius>
+		<Radius>0.0</Radius>
 		<Alpha>-90.0</Alpha>
 	</DHParameters>
 
@@ -1076,7 +1076,7 @@
 	<deviceName>virtualDev</deviceName>
 	<type>virtual</type>
 	<index>16</index>
-	<scale>2</scale>
+	<scale>2.0</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -1132,7 +1132,7 @@
 	<deviceName>virtualDev</deviceName>
 	<type>virtual</type>
 	<index>17</index>
-	<scale>2</scale>
+	<scale>2.0</scale>
 	<upperLimit>255.0</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
@@ -1178,7 +1178,7 @@
 	<DHParameters>
 		<Delta>0.0</Delta>
 		<Theta>90.0</Theta>
-		<Radius>131.0</Radius>
+		<Radius>80.0</Radius>
 		<Alpha>0.0</Alpha>
 	</DHParameters>
 
