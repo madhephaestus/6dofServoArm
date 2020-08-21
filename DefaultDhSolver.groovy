@@ -102,6 +102,10 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		//xyz now are at the wrist center
 		// Compute the xy plane projection of the tip
 		// this is the angle of the tipto the base link
+		if(x==0&&y==0) {
+			println "Singularity! try something else"
+			return inverseKinematics6dof(target.copy().translateX(0.01));
+		}
 
 		double baseVectorAngle = Math.atan2(y , x);
 		double a1d = Math.toDegrees(baseVectorAngle);
@@ -130,6 +134,10 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		x=newTip.getX()
 		y=newTip.getY()
 		z=newTip.getZ()
+		if(x==0&&y==0) {
+			println "Singularity! try something else"
+			return inverseKinematics6dof(target.copy().translateX(0.01));
+		}
 		if(debug)println "New Tip                             \tx="+x+" y="+y+" and z should be 0 and is="+z
 
 
@@ -137,6 +145,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		// Tip y should be 0
 		// this is the angle of the vector from base to tip
 		double tipToBaseAngle = Math.atan2(y,x); // we now have the rest of the links in the XY plane
+		
 		double tipToBaseAngleDegrees = Math.toDegrees(tipToBaseAngle);
 		if(debug)println "Base link to tip angle elevation "+tipToBaseAngleDegrees
 		def transformAngleOfTipToTriangle = new TransformNR(0,0,0,new RotationNR(0,-tipToBaseAngleDegrees,0))
@@ -149,6 +158,10 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		// add together the last two links
 		TransformNR wristCenterToElbow = 	l2Offset.times(l3Offset)//.inverse()
 		// find the angle formed by the two links, includes the elbows theta
+		if(wristCenterToElbow.getX()==0&&wristCenterToElbow.getY()==0) {
+			println "Singularity! try something else"
+			return inverseKinematics6dof(target.copy().translateX(0.01));
+		}
 		double elbowLink2CompositeAngle = Math.atan2(wristCenterToElbow.getY(),wristCenterToElbow.getX());
 		double elbowLink2CompositeAngleDegrees = Math.toDegrees(elbowLink2CompositeAngle)
 		// COmpute teh vector length of the two links combined
@@ -186,6 +199,10 @@ public class scriptJavaIKModel implements DhInverseSolver {
 											.times(virtualcenter)// move forward to target, leaving the angle between the tip and the start of the rotation 
 		if(debug)println 	wristMOvedToCenter0								
 		RotationNR qWrist=wristMOvedToCenter0.getRotation()
+		if(wristMOvedToCenter0.getX()==0&&wristMOvedToCenter0.getY()==0) {
+			println "Singularity! try something else"
+			return inverseKinematics6dof(target.copy().translateX(0.01));
+		}
 		jointSpaceVector[3]=(Math.toDegrees(Math.atan2(wristMOvedToCenter0.getY(), wristMOvedToCenter0.getX()))-Math.toDegrees(links.get(3).getTheta()))
 		if(jointSpaceVector.length==4)
 			return jointSpaceVector
@@ -203,6 +220,10 @@ public class scriptJavaIKModel implements DhInverseSolver {
 											.times(virtualcenter)// move forward to target, leaving the angle between the tip and the start of the rotation
 		if(debug)println " Middle link ="	+wristMOvedToCenter1
 		RotationNR qWrist2=wristMOvedToCenter1.getRotation()
+		if(wristMOvedToCenter1.getX()==0&&wristMOvedToCenter1.getY()==0) {
+			println "Singularity! try something else"
+			return inverseKinematics6dof(target.copy().translateX(0.01));
+		}
 		jointSpaceVector[4]=(Math.toDegrees(Math.atan2(wristMOvedToCenter1.getY(), wristMOvedToCenter1.getX()))-
 			Math.toDegrees(links.get(4).getTheta())+
 			90)

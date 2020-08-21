@@ -804,8 +804,8 @@
 	<type>virtual</type>
 	<index>9</index>
 	<scale>2.0</scale>
-	<upperLimit>255.0</upperLimit>
-	<lowerLimit>0.0</lowerLimit>
+	<upperLimit>173.43283582089552</upperLimit>
+	<lowerLimit>83.43283582089552</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
 	<staticOffset>128.43283582089552</staticOffset>
@@ -1021,8 +1021,8 @@
 	<type>virtual</type>
 	<index>15</index>
 	<scale>2.0</scale>
-	<upperLimit>255.0</upperLimit>
-	<lowerLimit>0.0</lowerLimit>
+	<upperLimit>173.43283582089552</upperLimit>
+	<lowerLimit>83.43283582089552</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
 	<staticOffset>128.43283582089552</staticOffset>
