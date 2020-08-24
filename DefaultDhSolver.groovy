@@ -1,5 +1,4 @@
-import com.neuronrobotics.bowlerstudio.BowlerStudio;
-import com.neuronrobotics.bowlerstudio.BowlerStudioController
+
 import com.neuronrobotics.bowlerstudio.physics.TransformFactory
 import com.neuronrobotics.sdk.addons.kinematics.DHChain;
 import com.neuronrobotics.sdk.addons.kinematics.DhInverseSolver;
@@ -44,25 +43,25 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		return new TransformNR(link.DhStep(0))
 	}
 	public double[] inverseKinematics6dof(TransformNR target, double[] jointSpaceVector, DHChain chain) {
-		if(debug) {
-			if(blue==null) {
-				blue=new Cylinder(0, 5, 30,9).toCSG()
-						//.roty(-90)
-						.setColor(javafx.scene.paint.Color.BLUE)
-				green=new Cylinder(0, 5, 30,9).toCSG()//.roty(-90)
-						.setColor(javafx.scene.paint.Color.GREEN)
-				red=new Cylinder(0, 5, 30,9).toCSG()//.roty(-90)
-				.setColor(javafx.scene.paint.Color.RED)
-				white=new Cylinder(0, 5, 30,9).toCSG()//.roty(-90)
-				
-						.setColor(javafx.scene.paint.Color.WHITE)
-			}
-			BowlerStudioController.addCsg(blue)
-			BowlerStudioController.addCsg(green)
-			BowlerStudioController.addCsg(red)
-			BowlerStudioController.addCsg(white)
-			if(debug)Platform.runLater({TransformFactory.nrToAffine(target,white.getManipulator())})
-		}
+//		if(debug) {
+//			if(blue==null) {
+//				blue=new Cylinder(0, 5, 30,9).toCSG()
+//						//.roty(-90)
+//						.setColor(javafx.scene.paint.Color.BLUE)
+//				green=new Cylinder(0, 5, 30,9).toCSG()//.roty(-90)
+//						.setColor(javafx.scene.paint.Color.GREEN)
+//				red=new Cylinder(0, 5, 30,9).toCSG()//.roty(-90)
+//				.setColor(javafx.scene.paint.Color.RED)
+//				white=new Cylinder(0, 5, 30,9).toCSG()//.roty(-90)
+//				
+//						.setColor(javafx.scene.paint.Color.WHITE)
+//			}
+//			BowlerStudioController.addCsg(blue)
+//			BowlerStudioController.addCsg(green)
+//			BowlerStudioController.addCsg(red)
+//			BowlerStudioController.addCsg(white)
+//			if(debug)Platform.runLater({TransformFactory.nrToAffine(target,white.getManipulator())})
+//		}
 		//System.out.println("My 6dof IK "+target);
 		ArrayList<DHLink> links = chain.getLinks();
 		int linkNum = jointSpaceVector.length;
