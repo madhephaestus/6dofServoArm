@@ -235,10 +235,12 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		 */
 		chain.forwardKinematicsMatrix(jointSpaceVector,chainToLoad)
 		def	startOfWristSet3=chain.kin.inverseOffset(chainToLoad.get(4));
-		
+		def tool = new TransformNR()
+		if(linkNum==7)
+			tool=linkOffset(links.get(6))
 		TransformNR wristMOvedToCenter2 =startOfWristSet3
 											.inverse()// move back from base ot wrist to world home
-											.times(target)// move forward to target, leaving the angle between the tip and the start of the rotation
+											.times(target.times(tool.inverse()))// move forward to target, leaving the angle between the tip and the start of the rotation
 		if(debug)println "\n\nLastLink "	+wristMOvedToCenter2
 		RotationNR qWrist3=wristMOvedToCenter2.getRotation()
 		jointSpaceVector[5]=(Math.toDegrees(qWrist3.getRotationAzimuth())-Math.toDegrees(links.get(5).getTheta()))
