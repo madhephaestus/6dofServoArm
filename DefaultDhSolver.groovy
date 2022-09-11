@@ -1,10 +1,13 @@
 
 import com.neuronrobotics.bowlerstudio.physics.TransformFactory
+import com.neuronrobotics.sdk.addons.kinematics.AbstractKinematicsNR
 import com.neuronrobotics.sdk.addons.kinematics.DHChain;
 import com.neuronrobotics.sdk.addons.kinematics.DhInverseSolver;
 import com.neuronrobotics.sdk.addons.kinematics.WristNormalizer
 import com.neuronrobotics.sdk.addons.kinematics.math.RotationNR;
 import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR;
+
+import java.text.DecimalFormat
 import java.util.ArrayList;
 
 import com.neuronrobotics.sdk.addons.kinematics.DHLink;
@@ -234,7 +237,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		
 		double[] j =[jointSpaceVector[3],jointSpaceVector[4],jointSpaceVector[5]]as double[];
 		double[] c =	[current[3],current[4],current[5]]as double[]
-		double[] nrm = WristNormalizer.normalize(
+		double[] nrm = normalize(
 			j,
 			c,
 			chain);
@@ -247,7 +250,68 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		return jointSpaceVector;
 	}
 
+	double[] normalize(double[] calculated,double[] current, DHChain chain) {
+		AbstractKinematicsNR kin = chain.kin;
+		DecimalFormat df = new DecimalFormat("000.00");
+		double[] alt1 = [calculated[0]-180,-calculated[1],calculated[2]-180]as double[]
+		HashMap<double[],Double> scores= new HashMap<>();
+		score(calculated,current,scores,kin)
+		score(alt1,current,scores,kin)
+		score(calculated.collect{it+360}as double[],current,scores,kin)
+		score(alt1.collect{it+360}as double[],current,scores,kin)
+		score(calculated.collect{it-360}as double[],current,scores,kin)
+		score(alt1.collect{it-360}as double[],current,scores,kin)
+		score([calculated[0]-360,calculated[1],calculated[2]]as double[],current,scores,kin)
+		score([calculated[0]+360,calculated[1],calculated[2]]as double[],current,scores,kin)
+		
+		score([alt1[0]-360,alt1[1],alt1[2]]as double[],current,scores,kin)
+		score([alt1[0]+360,alt1[1],alt1[2]]as double[],current,scores,kin)
 
+		if(scores.size()>0) {
+			double[] start =calculated ;
+			if(scores.get(start)==null) {
+				start = scores.get(scores.keySet().toArray()[0])
+			}
+			double score=scores.get(start);
+			double[] ret=start;
+			//println "\n\n"
+			for(double[]  tmp:scores.keySet()) {
+				double delt =scores.get(tmp)
+				//println ""+tmp.collect{df.format(it)}+" score "+delt+" cur "+current.collect{df.format(it)}
+				if(delt<score) {
+					score=delt
+					ret=tmp
+					//println "Best yet"
+				}
+			}
+	//		if(ret!=calculated)
+	//			println "Current "+current.collect{df.format(it)}+" Normalizing wrist from:\n"+calculated.collect{df.format(it)+"\t"}+"\nto:\n"+ret.collect{df.format(it)+"\t"}
+			return ret
+		}
+		//println("No Solution! "+calculated.collect{df.format(it)}+" cur "+current.collect{df.format(it)})
+		
+		return current
+	}
+	
+	void score(double[] calculated,double[] current,HashMap<double[],Double> scores,AbstractKinematicsNR kin ) {
+		double delt=0;
+		for(int i=0;i<3;i++) {
+			int i3 = i+3;
+			calculated[i]=calculated[i] % 360;
+			if(calculated[i] >kin.getMaxEngineeringUnits(i3)) {
+				calculated[i]=kin.getMaxEngineeringUnits(i3);
+			}
+			if(calculated[i] <kin.getMinEngineeringUnits(i3)) {
+				calculated[i]=kin.getMinEngineeringUnits(i3)
+			}
+			double measure = current[i]-calculated[i];
+			if(Math.abs(measure)>Math.abs(delt)) {
+				delt=measure;
+			}
+		}
+		scores.put(calculated, Math.abs(delt));
+	}
+	
 
 }
 
