@@ -241,6 +241,10 @@ public class scriptJavaIKModel implements DhInverseSolver {
 			j,
 			c,
 			chain);
+//		double[] nrm = normalize(
+//			j,
+//			c,
+//			chain);
 		jointSpaceVector[3]=nrm[0]
 		jointSpaceVector[4]=nrm[1]
 		jointSpaceVector[5]=nrm[2]
