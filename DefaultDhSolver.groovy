@@ -237,7 +237,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		
 		double[] j =[jointSpaceVector[3],jointSpaceVector[4],jointSpaceVector[5]]as double[];
 		double[] c =	[current[3],current[4],current[5]]as double[]
-		double[] nrm = WristNormalizer.normalize(
+		double[] nrm = normalize(
 			j,
 			c,
 			chain);
@@ -295,22 +295,22 @@ public class scriptJavaIKModel implements DhInverseSolver {
 			}
 			double score=scores.get(start);
 			double[] ret=start;
-			println "\n\n"
+			//println "\n\n"
 			for(double[]  tmp:scores.keySet()) {
 				double delt =scores.get(tmp)
-				println ""+tmp.collect{df.format(it)}+" score "+delt+" cur "+current.collect{df.format(it)}
+				//println ""+tmp.collect{df.format(it)}+" score "+delt+" cur "+current.collect{df.format(it)}
 				if(delt<score) {
 					score=delt
 					ret=tmp
-					println "Best yet"
+					//println "Best yet"
 				}
 			}
 	//		if(ret!=calculated)
 	//			println "Current "+current.collect{df.format(it)}+" Normalizing wrist from:\n"+calculated.collect{df.format(it)+"\t"}+"\nto:\n"+ret.collect{df.format(it)+"\t"}
 			return ret
 		}
-		println("No Solution! "+calculated.collect{df.format(it)}+" cur "+current.collect{df.format(it)})
-		throw new RuntimeException("No Wrist Solution! ");
+		//println("No Solution! "+calculated.collect{df.format(it)}+" cur "+current.collect{df.format(it)})
+		//throw new RuntimeException("No Wrist Solution! ");
 		return current
 	}
 	
@@ -319,12 +319,12 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		for(int i=0;i<3;i++) {
 			int i3 = i+3;
 			calculated[i]=calculated[i] % 360;
-			if(calculated[i] >kin.getMaxEngineeringUnits(i3)) {
-				return //calculated[i]=kin.getMaxEngineeringUnits(i3);
-			}
-			if(calculated[i] <kin.getMinEngineeringUnits(i3)) {
-				return //calculated[i]=kin.getMinEngineeringUnits(i3)
-			}
+//			if(calculated[i] >kin.getMaxEngineeringUnits(i3)) {
+//				return //calculated[i]=kin.getMaxEngineeringUnits(i3);
+//			}
+//			if(calculated[i] <kin.getMinEngineeringUnits(i3)) {
+//				return //calculated[i]=kin.getMinEngineeringUnits(i3)
+//			}
 			double measure = current[i]-calculated[i];
 			if(Math.abs(measure)>Math.abs(delt)) {
 				delt=measure;
